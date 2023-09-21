@@ -1,30 +1,22 @@
-import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Lab1 from "./screens/Lab1";
+import Lab2 from "./screens/Lab2";
+
+import { NavigationContainer } from "@react-navigation/native";
+
+const Tab = createBottomTabNavigator();
 
 export default function App() {
-  const [count, setCount] = useState(0);
-
-  const addCount = () => {
-    setCount((prev) => prev + 1);
-  };
-
-  const decreseCount = () => {
-    setCount((prev) => prev - 1);
-  };
-
   return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={addCount}>
-        <Text>Увеличь страдания</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={decreseCount}>
-        <Text>Пощадить меня</Text>
-      </TouchableOpacity>
-      <Text>{count} лет страданий</Text>
-      <Text>Иванов Виктор ИВТ-20-2</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen name="Лабораторная 1" component={Lab1} />
+        <Tab.Screen name="Лабораторная 2" component={Lab2} />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
 
