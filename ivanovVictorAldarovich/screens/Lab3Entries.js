@@ -1,8 +1,10 @@
+import { StatusBar } from "expo-status-bar";
+import Button from "../components/Button";
 import { useState, useMemo, useEffect } from "react";
-import { Button, SafeAreaView, Text } from "react-native";
+import { View, SafeAreaView, Text, FlatList } from "react-native";
 
 const Lab3Entries = () => {
-  const [data, setData] = useState([{ Description: "wtf" }]);
+  const [data, setData] = useState([{ Description: "" }]);
 
   const fetchData = async () => {
     try {
@@ -26,24 +28,37 @@ const Lab3Entries = () => {
   }, [data]);
 
   return (
-    <SafeAreaView>
-      <Button title="Refresh" onPress={refresh} />
-      <Button
-        title="useMemo"
-        onPress={async () => {
-          setData(await datamemo);
-        }}
+    <>
+      <FlatList
+        data={[{Description: ""},...data]}
+        renderItem={({ item }) => (
+          <Text style={{lineHeight: 24}}>{item.Description}</Text>
+        )}
       />
-      <Button
-        title="delete"
-        onPress={() => {
-          setData([]);
-        }}
-      />
-      {data.map((d, i) => (
-        <Text key={i}>{d.Description}</Text>
-      ))}
-    </SafeAreaView>
+      <View style={{height: 8}}>
+
+      </View>
+      <View style={{paddingBottom: 16, display: 'flex', gap: 8}}>
+        <Button
+          title="Обновить с memo"
+          onPress={async () => {
+            setData(await datamemo);
+          }}
+        />
+        <Button
+          variant="secondary"
+          title="Обновить без memo"
+          onPress={refresh}
+        />
+        <Button
+          variant="delete"
+          title="Удалить"
+          onPress={() => {
+            setData([]);
+          }}
+        />
+      </View>
+    </>
   );
 };
 

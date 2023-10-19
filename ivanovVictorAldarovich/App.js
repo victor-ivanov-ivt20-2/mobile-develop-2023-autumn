@@ -1,6 +1,4 @@
-import { useState } from "react";
-import { StyleSheet, View } from "react-native";
-
+import "react-native-gesture-handler";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Lab1 from "./screens/Lab1";
 import Lab2 from "./screens/Lab2";
@@ -8,50 +6,76 @@ import Lab3 from "./screens/Lab3";
 
 import { NavigationContainer } from "@react-navigation/native";
 
-import Ionicons from "react-native-vector-icons/Ionicons";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <Tab.Navigator
+          screenOptions={({ route }) => ({
+            tabBarStyle: {
+              elevation: 0,
+              backgroundColor: "#fff",
+              height: 56,
+              paddingVertical: 8,
+            },
+            tabBarLabelStyle: {
+              fontFamily: "Roboto",
+              fontSize: 10,
+              letterSpacing: 0.4,
+              fontWeight: 500,
+            },
+            tabBarItemStyle: {
+              display: "flex",
+              height: 40,
+            },
+            tabBarIcon: ({ focused, color, size }) => {
+              let iconName;
 
-            if (route.name === "Лабораторная 1") {
-              iconName = focused
-                ? "ios-information-circle"
-                : "ios-information-circle-outline";
-            } else if (route.name === "Лабораторная 2") {
-              iconName = focused ? "ios-list" : "ios-list-outline";
-            }
+              if (route.name === "Лаб. работа №1") {
+                iconName = "queue";
+              } else if (route.name === "Лаб. работа №2") {
+                iconName = "check-box";
+              } else {
+                iconName = "show-chart";
+              }
 
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-          tabBarActiveTintColor: "tomato",
-          tabBarInactiveTintColor: "gray",
-        })}
-      >
-        <Tab.Screen name="Лабораторная 1" component={Lab1} />
-        <Tab.Screen name="Лабораторная 2" component={Lab2} />
-        <Tab.Screen name="Лабораторная 3" component={Lab3} />
-      </Tab.Navigator>
-    </NavigationContainer>
+              return <MaterialIcons name={iconName} size={20} color={color} />;
+            },
+            tabBarActiveTintColor: "blue",
+            tabBarInactiveTintColor: "gray",
+          })}
+        >
+          <Tab.Screen
+            name="Лаб. работа №1"
+            options={{
+              headerTitle: "Лабораторная работа №1",
+              headerTitleStyle: { textAlign: "center" },
+            }}
+            component={Lab1}
+          />
+          <Tab.Screen
+            name="Лаб. работа №2"
+            options={{
+              headerTitle: "Лабораторная работа №2",
+              headerTitleStyle: { textAlign: "center" },
+            }}
+            component={Lab2}
+          />
+          <Tab.Screen
+            name="Лаб. работа №3"
+            options={{
+              headerTitle: "Лабораторная работа №3",
+              headerTitleStyle: { textAlign: "center" },
+            }}
+            component={Lab3}
+          />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  button: {
-    backgroundColor: "#007AFF",
-    padding: 10,
-    borderRadius: 5,
-  },
-});
