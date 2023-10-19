@@ -30,15 +30,13 @@ const Lab3Entries = () => {
   return (
     <>
       <FlatList
-        data={[{Description: ""},...data]}
+        data={[{ Description: "" }, ...data]}
         renderItem={({ item }) => (
-          <Text style={{lineHeight: 24}}>{item.Description}</Text>
+          <Text style={{ lineHeight: 24 }}>{item.Description}</Text>
         )}
       />
-      <View style={{height: 8}}>
-
-      </View>
-      <View style={{paddingBottom: 16, display: 'flex', gap: 8}}>
+      <View style={{ height: 8 }}></View>
+      <View style={{ paddingBottom: 16, display: "flex", gap: 8 }}>
         <Button
           title="Обновить с memo"
           onPress={async () => {
