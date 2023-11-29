@@ -1,7 +1,20 @@
-import { View } from "react-native"
+import { useNavigation } from "@react-navigation/native";
+import { View } from "react-native";
+import Button from "../components/Button";
 
 const Login = () => {
-    return <View></View>
-}
+  const nav = useNavigation();
+  return (
+    <View>
+      <Button
+        onPress={() => {
+          nav.navigate("Labs");
+        }}
+      >
+        Войти
+      </Button>
+    </View>
+  );
+};
 
-export default Login
+export default Login;
