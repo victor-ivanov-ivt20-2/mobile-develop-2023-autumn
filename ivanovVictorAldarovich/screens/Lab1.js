@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import Button from "../components/Button";
 
 const Lab1 = () => {
@@ -17,10 +17,21 @@ const Lab1 = () => {
   return (
     <View style={styles.container}>
       <View style={{ paddingTop: 56 }}>
-        <Text style={{...styles.text, fontWeight: 500}}>{count} лет страданий</Text>
-        <Text style={{...styles.text, fontSize: 24}}>Иванова Виктора Алдаровича ИВТ-20-2</Text>
+        <Text style={{ ...styles.text, fontWeight: 500 }}>
+          {count} лет страданий
+        </Text>
+        <Text style={{ ...styles.text, fontSize: 24 }}>
+          Иванова Виктора Алдаровича ИВТ-20-2
+        </Text>
       </View>
-      <View style={{paddingBottom: 16, display: 'flex', flexDirection: 'col', gap: 8}}>
+      <View
+        style={{
+          paddingBottom: 16,
+          display: "flex",
+          flexDirection: "col",
+          gap: 8,
+        }}
+      >
         <Button title="Увеличить страдания" onPress={addCount} />
         <Button
           variant="secondary"

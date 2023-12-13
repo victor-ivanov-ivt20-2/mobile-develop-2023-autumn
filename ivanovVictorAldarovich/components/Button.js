@@ -30,9 +30,7 @@ const Button = (props) => {
           style={{ ...styles.buttonDelete, ...styles.button }}
           onPress={onPress}
         >
-          <Text style={{ ...styles.textDelete, ...styles.text }}>
-            {title}
-          </Text>
+          <Text style={{ ...styles.textDelete, ...styles.text }}>{title}</Text>
         </Pressable>
       );
     default:
@@ -61,7 +59,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#007AFF15",
   },
   buttonDelete: {
-    background: "none"
+    background: "none",
   },
   text: {
     fontSize: 16,
@@ -75,8 +73,8 @@ const styles = StyleSheet.create({
     color: "#007AFF",
   },
   textDelete: {
-    color: "#FF0000"
-  }
+    color: "#FF0000",
+  },
 });
 
 export default Button;
