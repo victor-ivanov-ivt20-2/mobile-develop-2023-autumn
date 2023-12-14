@@ -39,7 +39,7 @@ const StackNavigatorComponent = () => {
 
 const BottomTabNavigatorComponent = () => {
   const token = useSelector((state) => state.auth.token);
-  const nav = useNavigation()
+  const nav = useNavigation();
   useEffect(() => {
     if (token == null)
       nav.reset({

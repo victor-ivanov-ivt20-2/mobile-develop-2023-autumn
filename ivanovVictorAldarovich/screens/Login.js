@@ -12,7 +12,7 @@ import {
   ScrollView,
 } from "react-native";
 import Button from "../components/Button";
-import { setToken } from "../store/reducers/auth";
+import { setToken, setUsername } from "../store/reducers/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "expo-router";
 import { gql, useMutation } from "@apollo/client";
@@ -47,8 +47,9 @@ const Login = () => {
       },
     })
       .then((response) => {
-        console.log('response', response.data.signin.accessToken)
+        console.log("response", response.data.signin);
         dispatch(setToken(response.data.signin.accessToken));
+        dispatch(setUsername(response.data.signin.user.username));
         nav.navigate("Labs");
       })
       .catch((err) => {
@@ -58,11 +59,17 @@ const Login = () => {
       });
   };
 
+  const GuestLogin = () => {
+    dispatch(setToken("default"));
+    nav.navigate("Labs");
+  };
+
   useEffect(() => {
-    if (token != null) nav.reset({
-      index: 0,
-      routes: [{name: "Labs"}]
-    });
+    if (token != null)
+      nav.reset({
+        index: 0,
+        routes: [{ name: "Labs" }],
+      });
   }, [token]);
 
   return (
@@ -150,9 +157,16 @@ const Login = () => {
               style={{
                 paddingHorizontal: 8,
                 paddingVertical: 12,
+                display: "flex",
+                gap: 8,
               }}
             >
               <Button onPress={LoginFunc} title="Войти" />
+              <Button
+                onPress={GuestLogin}
+                title="Войти как гость"
+                variant="secondary"
+              />
             </View>
           </View>
         </TouchableWithoutFeedback>

@@ -19,7 +19,7 @@ const HeaderExit = (props) => {
         width: 24,
       }}
       onPress={() => {
-        dispatch(setToken(null))
+        dispatch(setToken(null));
         nav.navigate("Login");
       }}
     >

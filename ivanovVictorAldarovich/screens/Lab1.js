@@ -2,9 +2,11 @@ import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Button from "../components/Button";
+import { useSelector } from "react-redux";
 
 const Lab1 = () => {
   const [count, setCount] = useState(0);
+  const username = useSelector((state) => state.auth.username);
 
   const addCount = () => {
     setCount((prev) => prev + 1);
@@ -17,11 +19,9 @@ const Lab1 = () => {
   return (
     <View style={styles.container}>
       <View style={{ paddingTop: 56 }}>
-        <Text style={{ ...styles.text, fontWeight: 500 }}>
-          {count} лет страданий
-        </Text>
+        <Text style={{ ...styles.text, fontWeight: 500 }}>{username}</Text>
         <Text style={{ ...styles.text, fontSize: 24 }}>
-          Иванова Виктора Алдаровича ИВТ-20-2
+          Будет страдать {count} лет
         </Text>
       </View>
       <View
@@ -33,11 +33,7 @@ const Lab1 = () => {
         }}
       >
         <Button title="Увеличить страдания" onPress={addCount} />
-        <Button
-          variant="secondary"
-          title="Пощада Виктору"
-          onPress={decreseCount}
-        />
+        <Button variant="secondary" title="Пощадить" onPress={decreseCount} />
       </View>
 
       <StatusBar style="auto" />
