@@ -8,14 +8,42 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Button from "../components/Button";
+import { gql, useMutation } from "@apollo/client";
+
+const SIGNIN = gql`
+  mutation SignIn($input: SignInInput!) {
+    signin(signInInput: $input) {
+      accessToken
+      refreshToken
+      user {
+        username
+      }
+    }
+  }
+`;
 
 const Login = () => {
   const nav = useNavigation();
   const [email, onChangeEmail] = useState();
   const [password, onChangePassword] = useState();
+  const [signin, { data, loading }] = useMutation(SIGNIN);
 
-  const LoginFunc = () => {
-    nav.navigate("Labs");
+  const LoginFunc = async () => {
+    await signin({
+      variables: {
+        input: {
+          email: email,
+          password: password,
+        },
+      },
+    }).then((response) => {
+      // localStorage.setItem("token", response.data.signin.accessToken);
+      nav.navigate("Labs");
+    }).catch((err) => {
+      console.log(err)
+      console.log('email', email)
+      console.log('password', password)
+    });
   };
 
   return (

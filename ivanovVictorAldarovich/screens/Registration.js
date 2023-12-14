@@ -7,16 +7,43 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
+import { gql, useMutation } from "@apollo/client";
 import Button from "../components/Button";
+
+const SIGNUP = gql`
+  mutation SignUp($input: SignUpInput!) {
+    signup(signUpInput: $input) {
+      accessToken
+      refreshToken
+      user {
+        username
+      }
+    }
+  }
+`;
 
 const Registration = () => {
   const nav = useNavigation();
   const [email, onChangeEmail] = useState();
   const [password, onChangePassword] = useState();
   const [cpassword, onChangeCpassword] = useState();
+  const [username, onChangeUsername] = useState();
+  const [signup, { data, loading }] = useMutation(SIGNUP);
 
-  const RegisterFunc = () => {
-    nav.navigate("Login");
+  const RegisterFunc = async () => {
+    if (password === cpassword) {
+      await signup({
+        variables: {
+          input: {
+            email: email,
+            password: password,
+            username: username,
+          },
+        },
+      }).then((response) => {
+        nav.navigate("Login");
+      });
+    }
   };
 
   return (
@@ -53,6 +80,28 @@ const Registration = () => {
             gap: 10,
           }}
         >
+          <View
+            style={{
+              marginLeft: 16,
+              borderBottomWidth: 1,
+              borderColor: "#A3A3A3",
+              paddingVertical: 11,
+            }}
+          >
+            <Text style={{ fontSize: 16, color: "#A3A3A3" }}>Никнейм</Text>
+            <TextInput
+              style={{
+                fontSize: 20,
+                color: "#000",
+                paddingTop: 8,
+                lineHeight: 22,
+              }}
+              placeholderTextColor="#A3A3A3"
+              onChangeText={onChangeUsername}
+              value={username}
+              placeholder="viktor"
+            />
+          </View>
           <View
             style={{
               marginLeft: 16,
@@ -105,7 +154,9 @@ const Registration = () => {
               paddingVertical: 11,
             }}
           >
-            <Text style={{ fontSize: 16, color: "#A3A3A3" }}>Пароль</Text>
+            <Text style={{ fontSize: 16, color: "#A3A3A3" }}>
+              Подтвердите пароль
+            </Text>
             <TextInput
               style={{
                 fontSize: 20,

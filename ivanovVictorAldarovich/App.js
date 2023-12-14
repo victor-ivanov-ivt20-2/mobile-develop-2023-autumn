@@ -10,9 +10,15 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import Login from "./screens/Login";
 import Registration from "./screens/Registration";
 import HeaderExit from "./components/HeaderExit";
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
+const client = new ApolloClient({
+  uri: "http://45.84.225.164:3005/graphql",
+  cache: new InMemoryCache(),
+});
 
 const StackNavigatorComponent = () => {
   return (
@@ -98,10 +104,12 @@ const BottomTabNavigatorComponent = () => {
 
 export default function App() {
   return (
-    <SafeAreaProvider>
-      <NavigationContainer>
-        <StackNavigatorComponent />
-      </NavigationContainer>
-    </SafeAreaProvider>
+    <ApolloProvider client={client}>
+      <SafeAreaProvider>
+        <NavigationContainer>
+          <StackNavigatorComponent />
+        </NavigationContainer>
+      </SafeAreaProvider>
+    </ApolloProvider>
   );
 }
