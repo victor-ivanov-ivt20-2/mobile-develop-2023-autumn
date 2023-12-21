@@ -10,11 +10,11 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   ScrollView,
+  Alert,
 } from "react-native";
 import Button from "../components/Button";
 import { setToken, setUsername } from "../store/reducers/auth";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "expo-router";
 import { gql, useMutation } from "@apollo/client";
 
 const SIGNIN = gql`
@@ -47,15 +47,16 @@ const Login = () => {
       },
     })
       .then((response) => {
-        console.log("response", response.data.signin);
         dispatch(setToken(response.data.signin.accessToken));
         dispatch(setUsername(response.data.signin.user.username));
         nav.navigate("Labs");
       })
       .catch((err) => {
-        console.log(err);
-        console.log("email", email);
-        console.log("password", password);
+        Alert.alert(
+          "Неправильный ввод",
+          err["graphQLErrors"][0]["message"] || "Bad Request",
+          [{ text: "Пон" }]
+        );
       });
   };
 

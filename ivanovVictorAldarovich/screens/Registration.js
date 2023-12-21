@@ -9,11 +9,11 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   ScrollView,
+  Alert,
 } from "react-native";
 import { gql, useMutation } from "@apollo/client";
 import Button from "../components/Button";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import { Redirect } from "expo-router";
 import { useSelector } from "react-redux";
 
 const SIGNUP = gql`
@@ -47,9 +47,17 @@ const Registration = () => {
             username: username,
           },
         },
-      }).then((response) => {
-        nav.navigate("Login");
-      });
+      })
+        .then(() => {
+          nav.navigate("Login");
+        })
+        .catch((err) => {
+          Alert.alert(
+            "Неправильный ввод",
+            err["graphQLErrors"][0]["message"] || "Bad Request",
+            [{ text: "Пон" }]
+          );
+        });
     }
   };
 
