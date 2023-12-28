@@ -2,11 +2,21 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input ChangePasswordInput {
+  id: String!
+  password: String!
+}
+
+type ChangePasswordResponse {
+  user: User!
+}
+
 type LogoutResponse {
   loggedOut: Boolean!
 }
 
 type Mutation {
+  changePassword(changePasswordInput: ChangePasswordInput!): ChangePasswordResponse!
   getNewTokens: NewTokensResponse!
   logout(id: String!): LogoutResponse!
   signin(signInInput: SignInInput!): SignResponse!

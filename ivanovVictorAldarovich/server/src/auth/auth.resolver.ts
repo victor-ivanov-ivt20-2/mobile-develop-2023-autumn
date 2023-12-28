@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
 import { Auth } from './entities/auth.entity';
 import { SignUpInput } from './dto/signup-input';
@@ -11,7 +11,8 @@ import { CurrentUserId } from './decorators/currentUserId.decorator';
 import { CurrentUser } from './decorators/currentUser.decorator';
 import { UseGuards } from '@nestjs/common';
 import { RefreshTokenGuard } from './guards/refreshToken.guard';
-// import { TelegramService } from 'src/telegram/telegram.service';
+import { ChangePasswordResponse } from './dto/change-password-response';
+import { ChangePasswordInput } from './dto/change-password.input';
 
 @Resolver(() => Auth)
 export class AuthResolver {
@@ -36,6 +37,7 @@ export class AuthResolver {
   logout(@Args('id', { type: () => String }) id: string) {
     return this.authService.logout(id);
   }
+
   @Public()
   @UseGuards(RefreshTokenGuard)
   @Mutation(() => NewTokensResponse)
@@ -45,4 +47,11 @@ export class AuthResolver {
   ) {
     return this.authService.getNewTokens(userId, refreshToken);
   }
+
+  @Public()
+  @Mutation(() => ChangePasswordResponse)
+  changePassword(@Args("changePasswordInput") changePasswordInput: ChangePasswordInput) {
+    return this.authService.changePassword(changePasswordInput)
+  }
 }
+

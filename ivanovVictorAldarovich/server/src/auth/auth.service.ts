@@ -5,9 +5,10 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { SignUpInput } from './dto/signup-input';
 import * as argon from 'argon2';
 import { SignInInput } from './dto/signin-input';
+import { ChangePasswordInput } from './dto/change-password.input';
 @Injectable()
 export class AuthService {
-  constructor(private prisma: PrismaService, private jwtService: JwtService) {}
+  constructor(private prisma: PrismaService, private jwtService: JwtService) { }
   async signup(signUpInput: SignUpInput) {
     const hashedPassword = await argon.hash(signUpInput.password);
     const user = await this.prisma.user.create({
@@ -103,6 +104,7 @@ export class AuthService {
       refreshToken,
     };
   }
+
   async updateRefreshToken(userId: string, refreshToken: string) {
     const hashedRefreshToken = await argon.hash(refreshToken);
     const updatedAt = new Date();
@@ -111,6 +113,7 @@ export class AuthService {
       data: { hashedRefreshToken, updatedAt },
     });
   }
+
   async getNewTokens(userId: string, rt: string) {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
@@ -132,4 +135,18 @@ export class AuthService {
     await this.updateRefreshToken(user.id, refreshToken);
     return { accessToken, refreshToken, user };
   }
+
+  async changePassword(changePassword: ChangePasswordInput) {
+    const hashedPassword = await argon.hash(changePassword.password);
+    const user = await this.prisma.user.update({
+      where: {
+        id: changePassword.id
+      },
+      data: {
+        hashedPassword,
+      },
+    });
+    return { user };
+  }
+
 }
