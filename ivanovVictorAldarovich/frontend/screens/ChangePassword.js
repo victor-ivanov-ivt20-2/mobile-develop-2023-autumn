@@ -18,10 +18,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { gql, useMutation } from "@apollo/client";
 
 const SIGNIN = gql`
-  mutation SignIn($input: SignInInput!) {
-    signin(signInInput: $input) {
-      accessToken
-      refreshToken
+  mutation changePassword($input: ChangePasswordInput!) {
+    changePassword(changePasswordInput: $input) {
       user {
         username
       }
@@ -29,29 +27,29 @@ const SIGNIN = gql`
   }
 `;
 
-const Login = () => {
+const ChangePassword = () => {
   const token = useSelector((state) => state.auth.token);
+  const username = useSelector((state) => state.auth.username);
+  const id = useSelector((state) => state.auth.id);
   const dispatch = useDispatch();
   const nav = useNavigation();
-  const [email, onChangeEmail] = useState();
   const [password, onChangePassword] = useState();
   const [signin, { data, loading }] = useMutation(SIGNIN);
-
+  console.log('id', id)
   const LoginFunc = async () => {
     await signin({
       variables: {
         input: {
-          email: email,
+          id: id,
           password: password,
         },
       },
     })
       .then((response) => {
-        dispatch(setToken(response.data.signin.accessToken));
-        dispatch(setUsername(response.data.signin.user.username));
-        nav.navigate("Labs");
+        nav.goBack();
       })
       .catch((err) => {
+        console.log('id', id)
         Alert.alert(
           "Неправильный ввод",
           err["graphQLErrors"][0]["message"] || "Bad Request",
@@ -66,10 +64,10 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (token != null)
+    if (token == null)
       nav.reset({
         index: 0,
-        routes: [{ name: "Labs" }],
+        routes: [{ name: "Login" }],
       });
   }, [token]);
 
@@ -99,7 +97,22 @@ const Login = () => {
                   fontWeight: "700",
                 }}
               >
-                Вход
+                Сменить пароль
+              </Text>
+            </View>
+            <View
+              style={{
+                paddingHorizontal: 16,
+                paddingVertical: 12,
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 32,
+                  fontWeight: "700",
+                }}
+              >
+                Аккаунт: {username}
               </Text>
             </View>
             <View
@@ -109,28 +122,6 @@ const Login = () => {
                 gap: 10,
               }}
             >
-              <View
-                style={{
-                  marginLeft: 16,
-                  borderBottomWidth: 1,
-                  borderColor: "#A3A3A3",
-                  paddingVertical: 11,
-                }}
-              >
-                <Text style={{ fontSize: 16, color: "#A3A3A3" }}>Почта</Text>
-                <TextInput
-                  style={{
-                    fontSize: 20,
-                    color: "#000",
-                    paddingTop: 8,
-                    lineHeight: 22,
-                  }}
-                  placeholderTextColor="#A3A3A3"
-                  onChangeText={onChangeEmail}
-                  value={email}
-                  placeholder="ivanov@gmail.com"
-                />
-              </View>
               <View
                 style={{
                   marginLeft: 16,
@@ -162,49 +153,15 @@ const Login = () => {
                 gap: 8,
               }}
             >
-              <Button onPress={LoginFunc} title="Войти" />
+              <Button onPress={LoginFunc} title="Подтвердить" />
               <Button
-                onPress={GuestLogin}
-                title="Войти как гость"
+                onPress={() => nav.goBack()}
+                title="Вернуться"
                 variant="secondary"
               />
             </View>
           </View>
         </TouchableWithoutFeedback>
-
-        <View
-          style={{
-            paddingBottom: 24,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexDirection: "row",
-            gap: 4,
-          }}
-        >
-          <Text
-            style={{
-              letterSpacing: -0.6,
-              color: "#A3A3A3",
-            }}
-          >
-            У вас еще нет аккаунта?
-          </Text>
-          <TouchableOpacity
-            onPress={() => {
-              nav.navigate("Registration");
-            }}
-          >
-            <Text
-              style={{
-                color: "#2563EB",
-                letterSpacing: -0.6,
-              }}
-            >
-              Зарегистрироваться
-            </Text>
-          </TouchableOpacity>
-        </View>
       </ScrollView>
 
       <StatusBar
@@ -216,4 +173,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ChangePassword;

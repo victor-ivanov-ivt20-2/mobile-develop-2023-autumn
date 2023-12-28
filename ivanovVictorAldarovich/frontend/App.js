@@ -14,6 +14,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { Provider, useSelector } from "react-redux";
 import store from "./store";
 import { useEffect } from "react";
+import ChangePassword from "./screens/ChangePassword";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -33,6 +34,7 @@ const StackNavigatorComponent = () => {
       <Stack.Screen component={Login} name="Login" />
       <Stack.Screen component={Registration} name="Registration" />
       <Stack.Screen component={BottomTabNavigatorComponent} name="Labs" />
+      <Stack.Screen component={ChangePassword} name="ChangePassword" />
     </Stack.Navigator>
   );
 };

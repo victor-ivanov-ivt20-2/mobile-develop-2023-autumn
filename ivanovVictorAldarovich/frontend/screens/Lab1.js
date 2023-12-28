@@ -3,10 +3,12 @@ import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Button from "../components/Button";
 import { useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 
 const Lab1 = () => {
   const [count, setCount] = useState(0);
   const username = useSelector((state) => state.auth.username);
+  const nav = useNavigation();
 
   const addCount = () => {
     setCount((prev) => prev + 1);
@@ -19,7 +21,7 @@ const Lab1 = () => {
   return (
     <View style={styles.container}>
       <View style={{ paddingTop: 56 }}>
-        <Text style={{ ...styles.text, fontWeight: 500 }}>{username}</Text>
+        <Text style={{ ...styles.text, fontWeight: 500 }} onPress={() => nav.navigate("ChangePassword")}>{username}</Text>
         <Text style={{ ...styles.text, fontSize: 24 }}>
           Будет страдать {count} лет
         </Text>
