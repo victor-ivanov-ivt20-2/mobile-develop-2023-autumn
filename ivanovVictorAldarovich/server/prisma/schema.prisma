@@ -1,4 +1,3 @@
-// This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
@@ -8,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://admin:password@localhost:5432/mydb?schema=public"
+  url      = "postgresql://admin:password@45.84.225.164:5432/mydb?schema=public"
 }
 
 model User {
